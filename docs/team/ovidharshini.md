@@ -13,7 +13,7 @@ Given below are my contributions to the project.
   * What it does: to be added soon
   * Justification: to be added soon
   * Highlights: to be added soon
-  * Credits: *{to be addevd soon}*
+  * Credits: *{to be added soon}*
 
 * **Code contributed**: [RepoSense link]()
 
