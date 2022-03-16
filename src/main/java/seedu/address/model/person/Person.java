@@ -7,9 +7,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import seedu.address.model.tag.Tag;
 import seedu.address.model.job.Job;
 import seedu.address.model.job.Money;
+import seedu.address.model.tag.Tag;
 
 /**
  * Represents a Person in the address book.
@@ -53,6 +53,12 @@ public class Person {
         this.tags.addAll(tags);
     }
 
+    /**
+     * Adds a Job and recalculates owed salary.
+     *
+     * @param job Job to be added.
+     * @return updated Person.
+     */
     public Person addJob(Job job) {
         Set<Job> updatedJobs = new HashSet<>(jobs);
         updatedJobs.add(job);
