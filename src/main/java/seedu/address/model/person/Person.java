@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import seedu.address.model.job.Job;
 import seedu.address.model.job.Money;
 import seedu.address.model.tag.Tag;
 
@@ -25,7 +24,6 @@ public class Person {
     // Data fields
     private final Address address;
     private final Money owedSalary;
-    private final Set<Job> jobs = new HashSet<>();
     private final Set<Tag> tags = new HashSet<>();
 
     /**
@@ -42,32 +40,26 @@ public class Person {
     }
 
     private Person(Name name, Phone phone, Email email, Address address, Money owedSalary,
-                  Set<Job> jobs, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
+                  Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, owedSalary, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.owedSalary = owedSalary;
-        this.jobs.addAll(jobs);
         this.tags.addAll(tags);
     }
 
     /**
-     * Adds a Job and recalculates owed salary.
+     * Recalculates owed salary.
      *
-     * @param job Job to be added.
-     * @return updated Person.
+     * @param addedSalary salary to be added.
+     * @return Person with updated salary.
      */
-    public Person addJob(Job job) {
-        Set<Job> updatedJobs = new HashSet<>(jobs);
-        updatedJobs.add(job);
+    public Person updateSalary(Money addedSalary) {
+        Money owedSalary = this.owedSalary.add(addedSalary);
 
-        Money owedSalary = job.hasPaid()
-                ? this.owedSalary
-                : this.owedSalary.add(job.calculatePay());
-
-        return new Person(name, phone, email, address, owedSalary, updatedJobs, tags);
+        return new Person(name, phone, email, address, owedSalary, tags);
     }
 
     public Name getName() {
@@ -137,7 +129,7 @@ public class Person {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(name, phone, email, address, owedSalary, tags);
     }
 
     @Override

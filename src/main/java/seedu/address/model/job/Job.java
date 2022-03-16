@@ -36,8 +36,9 @@ public class Job {
         this.duration = duration;
         this.hasPaid = hasPaid;
 
+        Money addedSalary = hasPaid ? new Money(0) : calculatePay();
         for (Person person: persons) {
-            this.persons.add(person.addJob(this));
+            this.persons.add(person.updateSalary(addedSalary));
         }
     }
 
