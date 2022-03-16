@@ -35,7 +35,10 @@ public class Job {
         this.rate = rate;
         this.duration = duration;
         this.hasPaid = hasPaid;
-        this.persons.addAll(persons);
+
+        for (Person person: persons) {
+            this.persons.add(person.addJob(this));
+        }
     }
 
     public String getJobId() {

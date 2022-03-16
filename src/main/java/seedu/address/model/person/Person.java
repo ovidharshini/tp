@@ -8,6 +8,8 @@ import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.model.tag.Tag;
+import seedu.address.model.job.Job;
+import seedu.address.model.job.Money;
 
 /**
  * Represents a Person in the address book.
@@ -22,6 +24,8 @@ public class Person {
 
     // Data fields
     private final Address address;
+    private final Money owedSalary;
+    private final Set<Job> jobs = new HashSet<>();
     private final Set<Tag> tags = new HashSet<>();
 
     /**
@@ -33,7 +37,31 @@ public class Person {
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.owedSalary = new Money(0);
         this.tags.addAll(tags);
+    }
+
+    private Person(Name name, Phone phone, Email email, Address address, Money owedSalary,
+                  Set<Job> jobs, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, tags);
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.owedSalary = owedSalary;
+        this.jobs.addAll(jobs);
+        this.tags.addAll(tags);
+    }
+
+    public Person addJob(Job job) {
+        Set<Job> updatedJobs = new HashSet<>(jobs);
+        updatedJobs.add(job);
+
+        Money owedSalary = job.hasPaid()
+                ? this.owedSalary
+                : this.owedSalary.add(job.calculatePay());
+
+        return new Person(name, phone, email, address, owedSalary, updatedJobs, tags);
     }
 
     public Name getName() {
@@ -50,6 +78,10 @@ public class Person {
 
     public Address getAddress() {
         return address;
+    }
+
+    public Money getSalary() {
+        return owedSalary;
     }
 
     /**
@@ -92,6 +124,7 @@ public class Person {
                 && otherPerson.getPhone().equals(getPhone())
                 && otherPerson.getEmail().equals(getEmail())
                 && otherPerson.getAddress().equals(getAddress())
+                && otherPerson.getSalary().equals(getSalary())
                 && otherPerson.getTags().equals(getTags());
     }
 
@@ -110,7 +143,9 @@ public class Person {
                 .append("; Email: ")
                 .append(getEmail())
                 .append("; Address: ")
-                .append(getAddress());
+                .append(getAddress())
+                .append("; Salary: ")
+                .append(getSalary());
 
         Set<Tag> tags = getTags();
         if (!tags.isEmpty()) {
