@@ -8,9 +8,15 @@ import static seedu.address.testutil.TypicalPersons.BOB;
 
 import java.math.BigDecimal;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
+
+import seedu.address.model.job.exceptions.IllegalPaymentException;
+import seedu.address.model.person.Person;
+import seedu.address.testutil.PersonBuilder;
 
 class JobTest {
 
@@ -18,10 +24,24 @@ class JobTest {
             new Rate(new Money(5.5), Duration.ofHours(1)), Duration.ofDays(1), false, Set.of(ALICE));
     private static final Job RUNNING = new Job("3175", "Running",
             new Rate(new Money(6), Duration.ofHours(4)), Duration.ofHours(8), true, Set.of(BOB));
+    private static final Person ALICECOPY = new PersonBuilder().withName("Alice Pauline")
+            .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com")
+            .withPhone("94351253")
+            .withTags("friends").build();
+    private static final Job EATINGCOPY = new Job("1043", "Eating",
+            new Rate(new Money(5.5), Duration.ofHours(1)), Duration.ofDays(1), false, Set.of(ALICE));
 
     @Test
     public void getPersons_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> EATING.getPersons().remove(0));
+    }
+
+    @Test
+    public void job_addJob_updatesPerson() {
+
+        // job.getPersons == personCopy.addJob(job) -> returns true
+        List<Person> persons = new ArrayList<>(EATING.getPersons());
+        assertTrue(persons.get(0).equals(ALICECOPY.addJob(EATINGCOPY)));
     }
 
     @Test
@@ -41,7 +61,12 @@ class JobTest {
     public void setAsNotPaid() {
         // not paid -> returns false
         assertFalse(EATING.setAsNotPaid().hasPaid());
-        assertFalse(RUNNING.setAsNotPaid().hasPaid());
+    }
+
+    @Test
+    public void setAsNotPaid_setPaidAsUnpaid_throwsIllegalPaymentException() {
+        // paid to unpaid -> throws IllegalPaymentException
+        assertThrows(IllegalPaymentException.class, () -> RUNNING.setAsNotPaid().hasPaid());
     }
 
     @Test

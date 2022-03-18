@@ -3,11 +3,16 @@ package seedu.address.model.person;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import seedu.address.model.job.Job;
 import seedu.address.model.job.Money;
+import seedu.address.model.job.exceptions.IllegalPaymentException;
+import seedu.address.model.job.exceptions.JobNotFoundException;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -25,6 +30,7 @@ public class Person {
     private final Address address;
     private final Money owedSalary;
     private final Set<Tag> tags = new HashSet<>();
+    private final HashMap<String, Boolean> jobs = new HashMap<>();
 
     /**
      * Every field must be present and not null.
@@ -40,26 +46,79 @@ public class Person {
     }
 
     private Person(Name name, Phone phone, Email email, Address address, Money owedSalary,
-                  Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, owedSalary, tags);
+                   Set<Tag> tags, HashMap<String, Boolean> jobs) {
+        requireAllNonNull(name, phone, email, address, owedSalary, jobs, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.owedSalary = owedSalary;
         this.tags.addAll(tags);
+        this.jobs.putAll(jobs);
     }
 
     /**
-     * Recalculates owed salary.
+     * Constructor for Person.
      *
-     * @param addedSalary salary to be added.
-     * @return Person with updated salary.
+     * @param person person
+     * @param owedSalary salary owed
+     * @param jobs jobs to be added
      */
-    public Person updateSalary(Money addedSalary) {
-        Money owedSalary = this.owedSalary.add(addedSalary);
+    public Person(Person person, Money owedSalary, HashMap<String, Boolean> jobs) {
+        requireAllNonNull(person, owedSalary, jobs);
+        this.name = person.name;
+        this.phone = person.phone;
+        this.email = person.email;
+        this.address = person.address;
+        this.owedSalary = owedSalary;
+        this.tags.addAll(person.tags);
+        this.jobs.putAll(jobs);
+    }
 
-        return new Person(name, phone, email, address, owedSalary, tags);
+    /**
+     * Adds new jobs to the Person and updates owedSalary.
+     * Updates job to paid and decreases owedSalary if Person
+     * has unpaid job.
+     *
+     * @param job job to be added
+     * @return Person with updated jobs.
+     */
+    public Person addJob(Job job) {
+        requireAllNonNull(job);
+        String jobId = job.getJobId();
+
+        if (jobs.containsKey(jobId)) {
+            if (jobs.get(jobId) && !job.hasPaid()) {
+                throw new IllegalPaymentException();
+            } else if (!jobs.get(jobId) && job.hasPaid()) {
+                jobs.remove(jobId);
+                Money owedSalary = this.owedSalary.subtract(job.calculatePay());
+                return new Person(this, owedSalary, jobs);
+            }
+        }
+
+        jobs.put(job.getJobId(), job.hasPaid());
+        Money addedSalary = job.hasPaid() ? new Money(0) : job.calculatePay();
+        Money owedSalary = this.owedSalary.add(addedSalary);
+        return new Person(this, owedSalary, jobs);
+    }
+
+    /**
+     * Removes job.
+     *
+     * @param job job to be added
+     * @return Person with updated jobs.
+     */
+    public Person removeJob(Job job) {
+        requireAllNonNull(job);
+        String jobId = job.getJobId();
+
+        if (!jobs.containsKey(jobId)) {
+            throw new JobNotFoundException();
+        }
+
+        jobs.remove(jobId);
+        return new Person(this, owedSalary, jobs);
     }
 
     public Name getName() {
@@ -80,6 +139,15 @@ public class Person {
 
     public Money getSalary() {
         return owedSalary;
+    }
+
+    /**
+     * Returns an immutable Map of (jobId, hasPaid).
+     *
+     * @return map of jobs.
+     */
+    public Map<String, Boolean> getJobs() {
+        return Collections.unmodifiableMap(jobs);
     }
 
     /**
@@ -123,13 +191,14 @@ public class Person {
                 && otherPerson.getEmail().equals(getEmail())
                 && otherPerson.getAddress().equals(getAddress())
                 && otherPerson.getSalary().equals(getSalary())
+                && otherPerson.getJobs().equals(getJobs())
                 && otherPerson.getTags().equals(getTags());
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, owedSalary, tags);
+        return Objects.hash(name, phone, email, address, owedSalary, jobs, tags);
     }
 
     @Override

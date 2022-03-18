@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import seedu.address.model.job.exceptions.IllegalPaymentException;
 import seedu.address.model.person.Person;
 
 /**
@@ -28,7 +29,8 @@ public class Job {
      * Constructor for an immutable job.
      * All fields must not be null.
      */
-    public Job(String jobId, String desc, Rate rate, Duration duration, boolean hasPaid, Set<Person> persons) {
+    public Job(String jobId, String desc, Rate rate, Duration duration,
+               boolean hasPaid, Set<Person> persons) throws IllegalPaymentException {
         requireAllNonNull(jobId, desc, rate, duration, hasPaid, persons);
         this.jobId = jobId;
         this.desc = desc;
@@ -36,9 +38,9 @@ public class Job {
         this.duration = duration;
         this.hasPaid = hasPaid;
 
-        Money addedSalary = hasPaid ? new Money(0) : calculatePay();
+
         for (Person person: persons) {
-            this.persons.add(person.updateSalary(addedSalary));
+            this.persons.add(person.addJob(this));
         }
     }
 
@@ -95,7 +97,7 @@ public class Job {
      *
      * @return Unpaid job.
      */
-    public Job setAsNotPaid() {
+    public Job setAsNotPaid() throws IllegalPaymentException {
         return new Job(jobId, desc, rate, duration, false, persons);
     }
 
