@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import peoplesoft.model.job.exceptions.DuplicateJobException;
+import peoplesoft.model.job.exceptions.IllegalPaymentException;
 import peoplesoft.model.person.Person;
 
 /**
@@ -28,14 +30,18 @@ public class Job {
      * Constructor for an immutable job.
      * All fields must not be null.
      */
-    public Job(String jobId, String desc, Rate rate, Duration duration, boolean hasPaid, Set<Person> persons) {
+    public Job(String jobId, String desc, Rate rate, Duration duration, boolean hasPaid,
+               Set<Person> persons) throws DuplicateJobException, IllegalPaymentException {
         requireAllNonNull(jobId, desc, rate, duration, hasPaid, persons);
         this.jobId = jobId;
         this.desc = desc;
         this.rate = rate;
         this.duration = duration;
         this.hasPaid = hasPaid;
-        this.persons.addAll(persons);
+
+        for (Person person: persons) {
+            this.persons.add(person.updateJobs(this));
+        }
     }
 
     public String getJobId() {
@@ -81,8 +87,10 @@ public class Job {
      * Returns a new instance of the job with isPaid as true;
      *
      * @return Paid job.
+     * @throws DuplicateJobException if job is added twice.
+     * @throws IllegalPaymentException if a paid job is set to be unpaid.
      */
-    public Job setAsPaid() {
+    public Job setAsPaid() throws DuplicateJobException, IllegalPaymentException {
         return new Job(jobId, desc, rate, duration, true, persons);
     }
 
@@ -90,8 +98,10 @@ public class Job {
      * Returns a new instance of the job with isPaid as false;
      *
      * @return Unpaid job.
+     * @throws DuplicateJobException if job is added twice.
+     * @throws IllegalPaymentException if a paid job is set to be unpaid.
      */
-    public Job setAsNotPaid() {
+    public Job setAsNotPaid() throws DuplicateJobException, IllegalPaymentException {
         return new Job(jobId, desc, rate, duration, false, persons);
     }
 
