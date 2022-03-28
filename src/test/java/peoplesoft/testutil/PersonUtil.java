@@ -71,6 +71,7 @@ public class PersonUtil {
      */
     public static String serializePerson(Person person) {
         return serializePerson(
+            person.getPersonId(),
             person.getName().toString(),
             person.getPhone().toString(),
             person.getAddress().toString(),
@@ -81,6 +82,7 @@ public class PersonUtil {
     /**
      * Generates a rudimentary JSON serialization of a {@code Person} with the given details.
      *
+     * @param personId the personId of the {@code Person}
      * @param name the string representation of the {@code Person}'s name
      * @param phone the string representation of the {@code Person}'s phone number
      * @param address the string representation of the {@code Person}'s address
@@ -88,10 +90,11 @@ public class PersonUtil {
      * @param tags a {@code Set} of the tags assigned to the {@code Person}
      * @return a JSON serialization of the given {@code Person}
      */
-    public static String serializePerson(String name, String phone, String address, String email,
+    public static String serializePerson(String personId, String name, String phone, String address, String email,
             Set<String> tags) {
         Map<String, String> map = new LinkedHashMap<>();
 
+        map.put("personId", personId == null ? "null" : "\"" + personId + "\"");
         map.put("name", name == null ? "null" : "\"" + name + "\"");
         map.put("phone", phone == null ? "null" : "\"" + phone + "\"");
         map.put("email", email == null ? "null" : "\"" + email + "\"");

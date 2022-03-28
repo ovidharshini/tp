@@ -3,6 +3,7 @@ package peoplesoft.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import peoplesoft.commons.core.JobIdFactory;
+import peoplesoft.commons.core.PersonIdFactory;
 import peoplesoft.model.AddressBook;
 import peoplesoft.model.Model;
 import peoplesoft.model.util.Employment;
@@ -20,9 +21,10 @@ public class ClearCommand extends Command {
     public CommandResult execute(Model model) {
         requireNonNull(model);
         model.setAddressBook(new AddressBook());
-        // Resets association and jobId
+        // Resets association, jobId and personId
         Employment.newInstance();
         JobIdFactory.setId(0);
+        PersonIdFactory.setId(0);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }

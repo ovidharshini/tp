@@ -28,6 +28,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import peoplesoft.commons.core.JobIdFactory;
+import peoplesoft.commons.core.PersonIdFactory;
 import peoplesoft.commons.util.JsonUtil;
 import peoplesoft.model.job.Job;
 import peoplesoft.model.person.Person;
@@ -38,7 +39,6 @@ public class AddressBookSerdesTest {
     public void serialize_validNonEmptyAttrs_returnsValidSerialization() throws JsonProcessingException {
         List<Person> personList = Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA);
         List<Job> jobList = List.of();
-
         AddressBook ab = new AddressBook();
         ab.setPersons(personList);
         ab.setJobs(jobList);
@@ -46,7 +46,6 @@ public class AddressBookSerdesTest {
         List<String> serializedPersonList = personList.stream()
             .map((p) -> serializePerson(p))
             .collect(Collectors.toList());
-
         // TODO
         /*List<String> serializedJobList = jobList.stream()
             .map((j) -> serializeJob(j))
@@ -55,12 +54,14 @@ public class AddressBookSerdesTest {
         String serializedEmployment = JsonUtil.toJsonString(Employment.getInstance().getAllJobs());
 
         String serializedJobIdState = String.valueOf(JobIdFactory.getId());
+        String serializedPersonIdState = String.valueOf(PersonIdFactory.getId());
 
         Map<String, String> entries = new LinkedHashMap<>();
         entries.put("persons", serializeList(serializedPersonList));
         entries.put("jobs", serializeList(List.of())); // TODO
         entries.put("employment", serializedEmployment);
         entries.put("jobIdState", serializedJobIdState);
+        entries.put("personIdState", serializedPersonIdState);
 
         String serialized = serializeObject(entries);
 
@@ -76,6 +77,7 @@ public class AddressBookSerdesTest {
         map.put("jobs", serializeList(List.of()));
         map.put("employment", JsonUtil.toJsonString(Employment.getInstance().getAllJobs()));
         map.put("jobIdState", JsonUtil.toJsonString(JobIdFactory.getId()));
+        map.put("personIdState", JsonUtil.toJsonString(PersonIdFactory.getId()));
 
         String serialized = serializeObject(map);
         // TODO not sure if these are deterministic
@@ -119,6 +121,7 @@ public class AddressBookSerdesTest {
         String serializedList = serializeList(Arrays.asList(
             serializePerson(ALICE),
             serializePerson(
+                "5",
                 "R@chel",
                 BENSON.getPhone().toString(),
                 BENSON.getAddress().toString(),
@@ -151,14 +154,18 @@ public class AddressBookSerdesTest {
 
         String serializedEmployment = JsonUtil.toJsonString(Employment.getInstance().getAllJobs());
 
-        int id = JobIdFactory.getId();
-        String serializedJobIdState = JsonUtil.toJsonString(id);
+        int jobId = JobIdFactory.getId();
+        String serializedJobIdState = JsonUtil.toJsonString(jobId);
+
+        int personId = PersonIdFactory.getId();
+        String serializedPersonIdState = JsonUtil.toJsonString(personId);
 
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put("persons", serializeList(serializedPersonList));
         map.put("jobs", serializeList(List.of())); // TODO
         map.put("employment", serializedEmployment);
         map.put("jobIdState", serializedJobIdState);
+        map.put("personIdState", serializedPersonIdState);
 
         String serialized = serializeObject(map);
 
@@ -166,7 +173,8 @@ public class AddressBookSerdesTest {
         // Checks if employment and jobIdState gets serialized correctly
         assertEquals(Employment.getInstance().getAllJobs(),
                 JsonUtil.fromJsonString(serializedEmployment, HashMap.class));
-        assertEquals(id, JsonUtil.fromJsonString(serializedJobIdState, int.class));
+        assertEquals(jobId, JsonUtil.fromJsonString(serializedJobIdState, int.class));
+        assertEquals(personId, JsonUtil.fromJsonString(serializedPersonIdState, int.class));
         // TODO if needed
     }
 }

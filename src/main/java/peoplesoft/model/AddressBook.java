@@ -8,7 +8,6 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -22,6 +21,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import javafx.collections.ObservableList;
 import peoplesoft.commons.core.JobIdFactory;
+import peoplesoft.commons.core.PersonIdFactory;
 import peoplesoft.commons.util.JsonUtil;
 import peoplesoft.model.job.Job;
 import peoplesoft.model.job.JobList;
@@ -123,7 +123,6 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void setPerson(Person target, Person editedPerson) {
         requireNonNull(editedPerson);
-
         persons.setPerson(target, editedPerson);
     }
 
@@ -174,11 +173,11 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     //// util methods
 
-    @Override
-    public String toString() {
-        return persons.asUnmodifiableObservableList().size() + " persons";
-        // TODO: refine later
-    }
+    //@Override
+    //public String toString() {
+    //    return persons.asUnmodifiableObservableList().size() + " persons";
+    // TODO: refine later
+    //}
 
     @Override
     public ObservableList<Person> getPersonList() {
@@ -220,6 +219,7 @@ public class AddressBook implements ReadOnlyAddressBook {
             gen.writeObjectField("jobs", val.jobs);
             gen.writeObjectField("employment", Employment.getInstance());
             gen.writeNumberField("jobIdState", JobIdFactory.getId());
+            gen.writeNumberField("personIdState", PersonIdFactory.getId());
 
             gen.writeEndObject();
         }
@@ -249,7 +249,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
         @Override
         public AddressBook deserialize(JsonParser p, DeserializationContext ctx)
-                throws IOException, JsonProcessingException {
+                throws IOException {
             JsonNode node = p.readValueAsTree();
             ObjectCodec codec = p.getCodec();
 
@@ -276,7 +276,7 @@ public class AddressBook implements ReadOnlyAddressBook {
                 Employment.setInstance(emp);
             }
 
-            JsonNode jobIdNode = objNode.get("jobIdstate");
+            JsonNode jobIdNode = objNode.get("jobIdState");
             if (jobIdNode == null) {
                 JobIdFactory.setId(0);
             } else {
@@ -285,8 +285,16 @@ public class AddressBook implements ReadOnlyAddressBook {
                 JobIdFactory.setId(jobId);
             }
 
-            AddressBook ab = new AddressBook(upl, ujl);
-            return ab;
+            JsonNode personIdNode = objNode.get("personIdState");
+            if (personIdNode == null) {
+                PersonIdFactory.setId(0);
+            } else {
+                int personId = getNonNullNode(objNode, "personIdState", ctx).intValue();
+
+                PersonIdFactory.setId(personId);
+            }
+
+            return new AddressBook(upl, ujl);
         }
 
         @Override

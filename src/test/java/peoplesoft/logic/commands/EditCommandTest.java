@@ -2,6 +2,7 @@ package peoplesoft.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static peoplesoft.logic.commands.CommandTestUtil.DESC_AMY;
 import static peoplesoft.logic.commands.CommandTestUtil.DESC_BOB;
 import static peoplesoft.logic.commands.CommandTestUtil.VALID_NAME_BOB;
@@ -44,8 +45,12 @@ public class EditCommandTest {
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
         expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPerson);
-
-        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+        try {
+            editCommand.execute(model);
+            assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+        } catch (Exception e) {
+            fail("An unexpected exception was thrown in executing the edit command.");
+        }
     }
 
     @Test

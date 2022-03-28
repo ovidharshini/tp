@@ -9,7 +9,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -129,6 +128,7 @@ public class UniquePersonList implements Iterable<Person> {
 
     @Override
     public boolean equals(Object other) {
+
         return other == this // short circuit if same object
                 || (other instanceof UniquePersonList // instanceof handles nulls
                         && internalList.equals(((UniquePersonList) other).internalList));
@@ -181,7 +181,7 @@ public class UniquePersonList implements Iterable<Person> {
 
         @Override
         public UniquePersonList deserialize(JsonParser p, DeserializationContext ctx)
-                throws IOException, JsonProcessingException {
+                throws IOException {
             JsonNode node = p.readValueAsTree();
             ObjectCodec codec = p.getCodec();
 

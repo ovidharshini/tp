@@ -9,7 +9,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -159,7 +158,7 @@ public class UniqueJobList implements JobList {
 
         @Override
         public UniqueJobList deserialize(JsonParser p, DeserializationContext ctx)
-            throws IOException, JsonProcessingException {
+            throws IOException {
             JsonNode node = p.readValueAsTree();
             ObjectCodec codec = p.getCodec();
 
@@ -178,4 +177,5 @@ public class UniqueJobList implements JobList {
             throw JsonUtil.getWrappedIllegalValueException(ctx, MISSING_OR_INVALID_VALUE);
         }
     }
+
 }

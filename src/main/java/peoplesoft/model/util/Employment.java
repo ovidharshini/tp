@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -24,7 +23,6 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import peoplesoft.commons.util.JsonUtil;
 import peoplesoft.model.Model;
 import peoplesoft.model.job.Job;
-import peoplesoft.model.person.Name;
 import peoplesoft.model.person.Person;
 
 /**
@@ -41,9 +39,9 @@ public class Employment {
     private static Employment instance;
 
     /**
-     * Maps {@code JobId} to {@code Name}.
+     * Maps {@code JobId} to {@code personId}.
      */
-    private HashMap<String, Name> map;
+    private HashMap<String, String> map;
 
     /**
      * Constructor for {@code getInstance}.
@@ -52,7 +50,7 @@ public class Employment {
         map = new HashMap<>();
     }
 
-    public Employment(HashMap<String, Name> map) {
+    public Employment(HashMap<String, String> map) {
         this.map = map;
     }
 
@@ -67,7 +65,7 @@ public class Employment {
     public void associate(Job job, Person person) {
         requireAllNonNull(job, person);
         // The nature of put assigns 1 job to 1 person
-        map.put(job.getJobId(), person.getName());
+        map.put(job.getJobId(), person.getPersonId());
     }
 
     /**
@@ -77,7 +75,7 @@ public class Employment {
      */
     public void deletePerson(Person person) {
         requireAllNonNull(person);
-        map.entrySet().removeIf(entry -> entry.getValue().equals(person.getName()));
+        map.entrySet().removeIf(entry -> entry.getValue().equals(person.getPersonId()));
     }
 
     /**
@@ -88,7 +86,8 @@ public class Employment {
      */
     public void editPerson(Person toEdit, Person editedPerson) {
         requireAllNonNull(toEdit, editedPerson);
-        map.replaceAll((jobId, name) -> name.equals(toEdit.getName()) ? editedPerson.getName() : name);
+        map.replaceAll((jobId, personId) -> personId.equals(toEdit.getPersonId())
+                ? editedPerson.getPersonId() : personId);
     }
 
     /**
@@ -111,7 +110,7 @@ public class Employment {
     public List<Job> getJobs(Person person, Model model) {
         requireAllNonNull(person, model);
         // TODO: Scuffed but workable, change if needed.
-        model.updateFilteredJobList(job -> person.getName().equals(map.get(job.getJobId())));
+        model.updateFilteredJobList(job -> person.getPersonId().equals(map.get(job.getJobId())));
         return model.getFilteredJobList();
     }
 
@@ -120,7 +119,7 @@ public class Employment {
      *
      * @return Map of jobs.
      */
-    public HashMap<String, Name> getAllJobs() {
+    public HashMap<String, String> getAllJobs() {
         return map;
     }
 
@@ -181,7 +180,7 @@ public class Employment {
 
         @Override
         public Employment deserialize(JsonParser p, DeserializationContext ctx)
-                throws IOException, JsonProcessingException {
+                throws IOException {
             JsonNode node = p.readValueAsTree();
             ObjectCodec codec = p.getCodec();
 
@@ -190,8 +189,8 @@ public class Employment {
             }
 
             JsonParser mapParser = node.traverse(codec);
-            HashMap<String, Name> map = codec.readValue(mapParser,
-                    new TypeReference<HashMap<String, Name>>(){});
+            HashMap<String, String> map = codec.readValue(mapParser,
+                    new TypeReference<HashMap<String, String>>(){});
 
             System.out.println(map);
 
