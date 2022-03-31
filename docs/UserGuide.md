@@ -54,22 +54,22 @@ You can also generate a PDF payslip for your employees to refer to.
 
 A handy reference for more experienced users who just need to know the format of a command.
 
-| Command     | Format                                                                           | Examples                                                                                                 |
-|-------------|----------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
-| `add`       | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS r/RATE [t/TAG]...​`                  | `add n/Nicole Tan p/99338558 e/nicole@stffhub.org  a/1 Tech Drive, S138572 r/37.50 t/Hardware t/Senior` |
-| `edit`      | `edit PERSON_INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/RATE] [t/TAG]...​` | `edit 2 n/Nicole Lee t/OS`                                                                             |
-| `delete`    | `delete PERSON_INDEX`                                                                   | `delete 3`                                                                                               |
-| `find`      | `find KEYWORD [MORE_KEYWORDS]...​`                                            | `find Nicole Hardware`, `find Aircon`                                                                    |
-| `list`      | `list`                                                                           | NA                                                                                                       |
-| `clear`     | `clear`                                                                          | NA                                                                                                       |
-| `job`       | `job n/NAME d/DURATION`                                                          | `job n/Fix HDB Lock d/1`                                                                          |
-| `joblist`   | `joblist`                                                                        | NA                                                                                                       |
-| `jobdelete` | `jobdelete JOB_INDEX`                                                            | `jobdelete 3`                                                                                            |
-| `mark`      | `mark JOB_INDEX`                                                                 | `mark 2`                                                                                                 |
-| `assign`    | `assign JOB_INDEX i/PERSON_INDEX [i/PERSON_INDEX]...​`                        | `assign 2 i/1`                                                                                           |
-| `pay`       | `pay JOB_INDEX y/`                                                               | `pay 2 y/`                                                                                               |
-| `exit`      | `exit`                                                                           | NA                                                                                                       |
-| `help`      | `help`
+| Command     | Format                                                                                                           | Examples                                                                                                 |
+|-------------|------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
+| `add`       | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS r/RATE [t/TAG,MULTIPLIER]...​ [mt/TAG]...​`                         | `add n/Nicole Tan p/99338558 e/nicole@stffhub.org  a/1 Tech Drive, S138572 r/37.50 t/Hardware t/Senior` |
+| `edit`      | `edit PERSON_INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/RATE] [t/TAG]...​ [mt/TAG,MULTIPLIER]...​` | `edit 2 n/Nicole Lee t/OS`                                                                             |
+| `delete`    | `delete PERSON_INDEX`                                                                                            | `delete 3`                                                                                               |
+| `find`      | `find KEYWORD [MORE_KEYWORDS]...​`                                                                               | `find Nicole Hardware`, `find Aircon`                                                                    |
+| `list`      | `list`                                                                                                           | NA                                                                                                       |
+| `clear`     | `clear`                                                                                                          | NA                                                                                                       |
+| `job`       | `job n/NAME d/DURATION`                                                                                          | `job n/Fix HDB Lock d/1`                                                                          |
+| `joblist`   | `joblist`                                                                                                        | NA                                                                                                       |
+| `jobdelete` | `jobdelete JOB_INDEX`                                                                                            | `jobdelete 3`                                                                                            |
+| `mark`      | `mark JOB_INDEX`                                                                                                 | `mark 2`                                                                                                 |
+| `assign`    | `assign JOB_INDEX i/PERSON_INDEX [i/PERSON_INDEX]...​`                                                           | `assign 2 i/1`                                                                                           |
+| `pay`       | `pay JOB_INDEX y/`                                                                                               | `pay 2 y/`                                                                                               |
+| `exit`      | `exit`                                                                                                           | NA                                                                                                       |
+| `help`      | `help`                                                                                                           
 --------------------------------------------------------------------------------------------------------------------
 
 ## Features
@@ -108,14 +108,14 @@ Adds a new employee to the system with the given attributes.
 
 Rate refers to the hourly pay of the employee.
 
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS r/RATE [t/TAG] [t/TAG]...`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS r/RATE [t/TAG] [t/TAG] ... [mt/TAG,MULTIPLIER] ...`
 
-Example: `add n/Nicole Tan p/99338558 e/nicole@stffhub.org a/1 Tech Drive, S138572 r/37.50 t/Hardware t/Senior`
+Example: `add n/Nicole Tan p/99338558 e/nicole@stffhub.org a/1 Tech Drive, S138572 r/37.50 t/Hardware t/QA mt/Senior,1.35`
 
 ### Edit an employee’s information : `edit`
 Edit the information of an existing employee. Use this in the event that an employee's details change.
 
-Format: `edit PERSON_INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/RATE] [t/TAG]...​`
+Format: `edit PERSON_INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [r/RATE] [t/TAG]...​ [mt/TAG,MULTIPLIER]...​`
 
 Example: `edit 2 p/62353535` edits the second person's phone number to 62353535
 
