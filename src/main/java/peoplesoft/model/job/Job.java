@@ -3,8 +3,10 @@ package peoplesoft.model.job;
 import static peoplesoft.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.UnaryOperator;
 
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -28,6 +30,8 @@ import peoplesoft.model.job.exceptions.JobNotPaidException;
 import peoplesoft.model.job.exceptions.ModifyFinalizedJobException;
 import peoplesoft.model.money.Money;
 import peoplesoft.model.money.Rate;
+import peoplesoft.model.tag.MultiplierTag;
+import peoplesoft.model.tag.Tag;
 import peoplesoft.model.util.ID;
 
 /**
@@ -99,6 +103,26 @@ public class Job {
      */
     public Money calculatePay(Rate rate) {
         return rate.calculateAmount(duration);
+    }
+
+    /**
+     * Returns the pay of the job.
+     * Calculated from rate and duration.
+     *
+     * @param rate Rate of job.
+     * @param tags Set of tags that might affect pay.
+     * @return Pay.
+     */
+    public Money calculatePay(Rate rate, Set<Tag> tags) {
+        Money pay = rate.calculateAmount(duration);
+        for (Tag tag: tags) {
+            if (tag instanceof MultiplierTag) {
+                BigDecimal multiplier = BigDecimal.valueOf(((MultiplierTag) tag).getMultiplier());
+                pay = pay.multiply(multiplier);
+            }
+        }
+
+        return pay;
     }
 
     /**

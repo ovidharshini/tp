@@ -34,7 +34,7 @@ public class PaymentHandler {
         }
         for (Person p : persons) {
             Map<ID, Payment> payments = new HashMap<>(p.getPayments());
-            Payment newPayment = Payment.createPayment(p, job, job.calculatePay(p.getRate()));
+            Payment newPayment = Payment.createPayment(p, job, job.calculatePay(p.getRate(), p.getTags()));
             payments.put(job.getJobId(), newPayment);
             Person newPerson = new Person(p.getPersonId(), p.getName(), p.getPhone(), p.getEmail(),
                     p.getAddress(), p.getRate(), p.getTags(), payments);
