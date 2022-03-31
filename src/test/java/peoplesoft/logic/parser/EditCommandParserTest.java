@@ -1,5 +1,6 @@
 package peoplesoft.logic.parser;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static peoplesoft.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static peoplesoft.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static peoplesoft.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
@@ -36,6 +37,7 @@ import org.junit.jupiter.api.Test;
 import peoplesoft.commons.core.index.Index;
 import peoplesoft.logic.commands.EditCommand;
 import peoplesoft.logic.commands.EditCommand.EditPersonDescriptor;
+import peoplesoft.logic.parser.exceptions.ParseException;
 import peoplesoft.model.person.Address;
 import peoplesoft.model.person.Email;
 import peoplesoft.model.person.Name;
@@ -127,6 +129,7 @@ public class EditCommandParserTest {
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_AMY).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
+        System.out.println(descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
     }
@@ -199,13 +202,10 @@ public class EditCommandParserTest {
     }
 
     @Test
-    public void parse_resetTags_success() {
+    public void parse_emptyTag_throwsParseException() {
         Index targetIndex = INDEX_THIRD_PERSON;
         String userInput = targetIndex.getOneBased() + TAG_EMPTY;
 
-        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withTags().build();
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
-
-        assertParseSuccess(parser, userInput, expectedCommand);
+        assertThrows(ParseException.class, () -> parser.parse(userInput));
     }
 }

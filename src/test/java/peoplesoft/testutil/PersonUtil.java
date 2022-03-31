@@ -60,9 +60,7 @@ public class PersonUtil {
                 .append(" "));
         if (descriptor.getTags().isPresent()) {
             Set<Tag> tags = descriptor.getTags().get();
-            if (tags.isEmpty()) {
-                sb.append(PREFIX_TAG);
-            } else {
+            if (!tags.isEmpty()) {
                 tags.forEach(s -> sb.append(PREFIX_TAG).append(s.tagName).append(" "));
             }
         }

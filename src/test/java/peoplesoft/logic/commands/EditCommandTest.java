@@ -40,13 +40,19 @@ public class EditCommandTest {
         Person editedPerson = new PersonBuilder()
                 .withId(new ID(1)) // we're editing the person at index 0, i.e. id 1
                 .build();
+        System.out.println(editedPerson + " edited person");
         EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder(editedPerson).build();
+        System.out.println(descriptor + " descriptor");
         EditCommand editCommand = new EditCommand(INDEX_FIRST_PERSON, descriptor);
 
-        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedPerson);
+        Person expectedPerson = new PersonBuilder()
+                .withId(new ID(1)) // we're editing the person at index 0, i.e. id 1
+                .withTags("friends")
+                .build();
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, expectedPerson);
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPerson);
+        expectedModel.setPerson(model.getFilteredPersonList().get(0), expectedPerson);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }

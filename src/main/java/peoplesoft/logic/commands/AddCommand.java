@@ -3,6 +3,7 @@ package peoplesoft.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static peoplesoft.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static peoplesoft.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static peoplesoft.logic.parser.CliSyntax.PREFIX_MULTIPLIER_TAG;
 import static peoplesoft.logic.parser.CliSyntax.PREFIX_NAME;
 import static peoplesoft.logic.parser.CliSyntax.PREFIX_PHONE;
 import static peoplesoft.logic.parser.CliSyntax.PREFIX_RATE;
@@ -27,6 +28,7 @@ public class AddCommand extends Command {
             + PREFIX_ADDRESS + "ADDRESS "
             + PREFIX_RATE + "RATE "
             + "[" + PREFIX_TAG + "TAG]...\n"
+            + "[" + PREFIX_MULTIPLIER_TAG + "MULTIPLIER_TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
             + PREFIX_PHONE + "98765432 "
@@ -34,7 +36,8 @@ public class AddCommand extends Command {
             + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
             + PREFIX_RATE + "3.20 "
             + PREFIX_TAG + "Intern "
-            + PREFIX_TAG + "Painting";
+            + PREFIX_TAG + "Painting"
+            + PREFIX_MULTIPLIER_TAG + "Senior,1.35";
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the database";

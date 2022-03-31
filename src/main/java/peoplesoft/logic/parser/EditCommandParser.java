@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static peoplesoft.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static peoplesoft.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static peoplesoft.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static peoplesoft.logic.parser.CliSyntax.PREFIX_MULTIPLIER_TAG;
 import static peoplesoft.logic.parser.CliSyntax.PREFIX_NAME;
 import static peoplesoft.logic.parser.CliSyntax.PREFIX_PHONE;
 import static peoplesoft.logic.parser.CliSyntax.PREFIX_RATE;
@@ -11,6 +12,7 @@ import static peoplesoft.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -34,7 +36,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                        PREFIX_RATE, PREFIX_TAG);
+                        PREFIX_RATE, PREFIX_TAG, PREFIX_MULTIPLIER_TAG);
 
         Index index;
 
@@ -60,7 +62,12 @@ public class EditCommandParser implements Parser<EditCommand> {
         if (argMultimap.getValue(PREFIX_RATE).isPresent()) {
             editPersonDescriptor.setRate(ParserUtil.parseRate(argMultimap.getValue(PREFIX_RATE).get()));
         }
-        parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
+
+        Set<Tag> tagSet = new HashSet<>();
+        parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(tagSet::addAll);
+        parseMultiplierTagsForEdit(argMultimap.getAllValues(PREFIX_MULTIPLIER_TAG))
+                .ifPresent(tagSet::addAll);
+        editPersonDescriptor.setTags(tagSet.isEmpty() ? null : tagSet);
 
         if (!editPersonDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
@@ -82,6 +89,21 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
         Collection<String> tagSet = tags.size() == 1 && tags.contains("") ? Collections.emptySet() : tags;
         return Optional.of(ParserUtil.parseTags(tagSet));
+    }
+
+    /**
+     * Parses {@code Collection<String> tags} into a {@code Set<Tag>} if {@code tags} is non-empty.
+     * If {@code tags} contain only one element which is an empty string, it will be parsed into a
+     * {@code Set<Tag>} containing zero tags.
+     */
+    private Optional<Set<Tag>> parseMultiplierTagsForEdit(Collection<String> tags) throws ParseException {
+        assert tags != null;
+
+        if (tags.isEmpty()) {
+            return Optional.empty();
+        }
+        Collection<String> tagSet = tags.size() == 1 && tags.contains("") ? Collections.emptySet() : tags;
+        return Optional.of(ParserUtil.parseMultiplierTags(tagSet));
     }
 
 }

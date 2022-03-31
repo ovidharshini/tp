@@ -16,6 +16,7 @@ import peoplesoft.model.person.Address;
 import peoplesoft.model.person.Email;
 import peoplesoft.model.person.Name;
 import peoplesoft.model.person.Phone;
+import peoplesoft.model.tag.MultiplierTag;
 import peoplesoft.model.tag.Tag;
 import peoplesoft.model.util.ID;
 
@@ -137,6 +138,40 @@ public class ParserUtil {
         final Set<Tag> tagSet = new HashSet<>();
         for (String tagName : tags) {
             tagSet.add(parseTag(tagName));
+        }
+        return tagSet;
+    }
+
+    /**
+     * Parses a {@code String multiplierTag} into a {@code MultiplierTag}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code multiplierTag} is invalid.
+     */
+    public static MultiplierTag parseMultiplierTag(String tag) throws ParseException {
+        requireNonNull(tag);
+        String trimmedTag = tag.trim();
+        String tagName = trimmedTag.substring(0, trimmedTag.lastIndexOf(","));
+        double tagMultiplier = Double.valueOf(trimmedTag.substring(trimmedTag.lastIndexOf(",") + 1));
+
+        if (!Tag.isValidTagName(tagName)) {
+            throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
+        }
+        if (!MultiplierTag.isValidTagMultiplier(tagMultiplier)) {
+            throw new ParseException((MultiplierTag.MESSAGE_CONSTRAINTS));
+        }
+
+        return new MultiplierTag(tagName, tagMultiplier);
+    }
+
+    /**
+     * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
+     */
+    public static Set<Tag> parseMultiplierTags(Collection<String> tags) throws ParseException {
+        requireNonNull(tags);
+        final Set<Tag> tagSet = new HashSet<>();
+        for (String tag : tags) {
+            tagSet.add(parseMultiplierTag(tag));
         }
         return tagSet;
     }

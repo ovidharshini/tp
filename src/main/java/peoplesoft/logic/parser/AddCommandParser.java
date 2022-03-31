@@ -3,6 +3,7 @@ package peoplesoft.logic.parser;
 import static peoplesoft.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static peoplesoft.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static peoplesoft.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static peoplesoft.logic.parser.CliSyntax.PREFIX_MULTIPLIER_TAG;
 import static peoplesoft.logic.parser.CliSyntax.PREFIX_NAME;
 import static peoplesoft.logic.parser.CliSyntax.PREFIX_PHONE;
 import static peoplesoft.logic.parser.CliSyntax.PREFIX_RATE;
@@ -38,7 +39,7 @@ public class AddCommandParser implements Parser<AddCommand> {
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
-                        PREFIX_RATE, PREFIX_TAG);
+                        PREFIX_RATE, PREFIX_TAG, PREFIX_MULTIPLIER_TAG);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_ADDRESS, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_RATE)
                 || !argMultimap.getPreamble().isEmpty()) {
@@ -51,8 +52,10 @@ public class AddCommandParser implements Parser<AddCommand> {
         Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
         Rate rate = ParserUtil.parseRate(argMultimap.getValue(PREFIX_RATE).get());
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+        Set<Tag> multiplierTagList = ParserUtil.parseMultiplierTags(argMultimap.getAllValues(PREFIX_MULTIPLIER_TAG));
         Map<ID, Payment> payments = Map.of();
 
+        tagList.addAll(multiplierTagList);
         Person person = new Person(PersonIdFactory.nextId(), name, phone, email, address, rate, tagList, payments);
 
         return new AddCommand(person);
