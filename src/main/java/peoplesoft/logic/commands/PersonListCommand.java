@@ -8,7 +8,7 @@ import peoplesoft.model.Model;
 /**
  * Lists all persons in the address book to the user.
  */
-public class PeopleListCommand extends Command {
+public class PersonListCommand extends Command {
 
     public static final String COMMAND_WORD = "list";
 

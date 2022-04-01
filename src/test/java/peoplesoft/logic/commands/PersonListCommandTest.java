@@ -13,9 +13,9 @@ import peoplesoft.model.ModelManager;
 import peoplesoft.model.UserPrefs;
 
 /**
- * Contains integration tests (interaction with the Model) and unit tests for PeopleListCommand.
+ * Contains integration tests (interaction with the Model) and unit tests for PersonListCommand.
  */
-public class PeopleListCommandTest {
+public class PersonListCommandTest {
 
     private Model model;
     private Model expectedModel;
@@ -28,12 +28,12 @@ public class PeopleListCommandTest {
 
     @Test
     public void execute_listIsNotFiltered_showsSameList() {
-        assertCommandSuccess(new PeopleListCommand(), model, PeopleListCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new PersonListCommand(), model, PersonListCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
     public void execute_listIsFiltered_showsEverything() {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
-        assertCommandSuccess(new PeopleListCommand(), model, PeopleListCommand.MESSAGE_SUCCESS, expectedModel);
+        assertCommandSuccess(new PersonListCommand(), model, PersonListCommand.MESSAGE_SUCCESS, expectedModel);
     }
 }

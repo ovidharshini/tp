@@ -10,12 +10,12 @@ import peoplesoft.logic.commands.ClearCommand;
 import peoplesoft.logic.commands.Command;
 import peoplesoft.logic.commands.ExitCommand;
 import peoplesoft.logic.commands.HelpCommand;
-import peoplesoft.logic.commands.PeopleAddCommand;
-import peoplesoft.logic.commands.PeopleDeleteCommand;
-import peoplesoft.logic.commands.PeopleEditCommand;
-import peoplesoft.logic.commands.PeopleExportCommand;
-import peoplesoft.logic.commands.PeopleFindCommand;
-import peoplesoft.logic.commands.PeopleListCommand;
+import peoplesoft.logic.commands.PersonAddCommand;
+import peoplesoft.logic.commands.PersonDeleteCommand;
+import peoplesoft.logic.commands.PersonEditCommand;
+import peoplesoft.logic.commands.PersonExportCommand;
+import peoplesoft.logic.commands.PersonFindCommand;
+import peoplesoft.logic.commands.PersonListCommand;
 import peoplesoft.logic.commands.job.AddCommand;
 import peoplesoft.logic.commands.job.AssignCommand;
 import peoplesoft.logic.commands.job.DeleteCommand;
@@ -58,26 +58,26 @@ public class AddressBookParser {
         final String arguments = matcher.group("arguments");
         switch (commandWord) {
 
-        case PeopleAddCommand.COMMAND_WORD:
+        case PersonAddCommand.COMMAND_WORD:
             return new AddCommandParser().parse(arguments);
 
-        case PeopleEditCommand.COMMAND_WORD:
+        case PersonEditCommand.COMMAND_WORD:
             return new EditCommandParser().parse(arguments);
 
-        case PeopleDeleteCommand.COMMAND_WORD:
+        case PersonDeleteCommand.COMMAND_WORD:
             return new DeleteCommandParser().parse(arguments);
 
-        case PeopleExportCommand.COMMAND_WORD:
+        case PersonExportCommand.COMMAND_WORD:
             return new ExportCommandParser().parse(arguments);
 
         case ClearCommand.COMMAND_WORD:
             return new ClearCommand();
 
-        case PeopleFindCommand.COMMAND_WORD:
+        case PersonFindCommand.COMMAND_WORD:
             return new FindCommandParser().parse(arguments);
 
-        case PeopleListCommand.COMMAND_WORD:
-            return new PeopleListCommand();
+        case PersonListCommand.COMMAND_WORD:
+            return new PersonListCommand();
 
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();

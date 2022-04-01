@@ -16,7 +16,7 @@ import peoplesoft.model.person.Person;
 /**
  * Exports a person identified using it's displayed index from the database.
  */
-public class PeopleExportCommand extends Command {
+public class PersonExportCommand extends Command {
 
     public static final String COMMAND_WORD = "export";
 
@@ -31,7 +31,7 @@ public class PeopleExportCommand extends Command {
 
     private final Index targetIndex;
 
-    public PeopleExportCommand(Index targetIndex) {
+    public PersonExportCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }
 
@@ -56,7 +56,7 @@ public class PeopleExportCommand extends Command {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof PeopleExportCommand // instanceof handles nulls
-                && targetIndex.equals(((PeopleExportCommand) other).targetIndex)); // state check
+                || (other instanceof PersonExportCommand // instanceof handles nulls
+                && targetIndex.equals(((PersonExportCommand) other).targetIndex)); // state check
     }
 }

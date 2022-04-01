@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import peoplesoft.logic.commands.job.AddCommand;
 import peoplesoft.logic.parser.ParserUtil;
 
-public class JobPeopleAddCommandParserTest {
+public class JobPersonAddCommandParserTest {
 
     private static final String MESSAGE_INVALID_FORMAT =
             String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);

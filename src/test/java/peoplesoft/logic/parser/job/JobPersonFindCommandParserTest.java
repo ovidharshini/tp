@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import peoplesoft.logic.commands.job.FindCommand;
 import peoplesoft.model.job.JobContainsKeywordsPredicate;
 
-public class JobPeopleFindCommandParserTest {
+public class JobPersonFindCommandParserTest {
 
     private JobFindCommandParser parser = new JobFindCommandParser();
 

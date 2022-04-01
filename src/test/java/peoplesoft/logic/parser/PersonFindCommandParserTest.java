@@ -8,24 +8,24 @@ import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
-import peoplesoft.logic.commands.PeopleFindCommand;
+import peoplesoft.logic.commands.PersonFindCommand;
 import peoplesoft.model.person.PersonContainsKeywordsPredicate;
 
-public class PeopleFindCommandParserTest {
+public class PersonFindCommandParserTest {
 
     private FindCommandParser parser = new FindCommandParser();
 
     @Test
     public void parse_emptyArg_throwsParseException() {
         assertParseFailure(parser, "     ",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, PeopleFindCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, PersonFindCommand.MESSAGE_USAGE));
     }
 
     @Test
     public void parse_validArgs_returnsFindCommand() {
         // no leading and trailing whitespaces
-        PeopleFindCommand expectedFindCommand =
-                new PeopleFindCommand(new PersonContainsKeywordsPredicate(Arrays.asList("Alice", "Bob")));
+        PersonFindCommand expectedFindCommand =
+                new PersonFindCommand(new PersonContainsKeywordsPredicate(Arrays.asList("Alice", "Bob")));
         assertParseSuccess(parser, "Alice Bob", expectedFindCommand);
 
         // multiple whitespaces between keywords

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import peoplesoft.commons.core.index.Index;
 import peoplesoft.logic.commands.job.DeleteCommand;
 
-public class JobPeopleDeleteCommandParserTest {
+public class JobPersonDeleteCommandParserTest {
 
     private static final String MESSAGE_INVALID_FORMAT =
             String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE);

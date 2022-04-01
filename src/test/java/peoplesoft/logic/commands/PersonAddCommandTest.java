@@ -17,11 +17,11 @@ import peoplesoft.model.ReadOnlyAddressBook;
 import peoplesoft.model.person.Person;
 import peoplesoft.testutil.PersonBuilder;
 
-public class PeopleAddCommandTest {
+public class PersonAddCommandTest {
 
     @Test
     public void constructor_nullPerson_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new PeopleAddCommand(null));
+        assertThrows(NullPointerException.class, () -> new PersonAddCommand(null));
     }
 
     @Test
@@ -29,19 +29,19 @@ public class PeopleAddCommandTest {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
         Person validPerson = new PersonBuilder().build();
 
-        CommandResult commandResult = new PeopleAddCommand(validPerson).execute(modelStub);
+        CommandResult commandResult = new PersonAddCommand(validPerson).execute(modelStub);
 
-        assertEquals(String.format(PeopleAddCommand.MESSAGE_SUCCESS, validPerson), commandResult.getFeedbackToUser());
+        assertEquals(String.format(PersonAddCommand.MESSAGE_SUCCESS, validPerson), commandResult.getFeedbackToUser());
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
     }
 
     @Test
     public void execute_duplicatePerson_throwsCommandException() {
         Person validPerson = new PersonBuilder().build();
-        PeopleAddCommand addCommand = new PeopleAddCommand(validPerson);
+        PersonAddCommand addCommand = new PersonAddCommand(validPerson);
         ModelStub modelStub = new ModelStubWithPerson(validPerson);
 
-        assertThrows(CommandException.class, PeopleAddCommand.MESSAGE_DUPLICATE_PERSON, ()
+        assertThrows(CommandException.class, PersonAddCommand.MESSAGE_DUPLICATE_PERSON, ()
                 -> addCommand.execute(modelStub));
     }
 
@@ -49,14 +49,14 @@ public class PeopleAddCommandTest {
     public void equals() {
         Person alice = new PersonBuilder().withName("Alice").build();
         Person bob = new PersonBuilder().withName("Bob").build();
-        PeopleAddCommand addAliceCommand = new PeopleAddCommand(alice);
-        PeopleAddCommand addBobCommand = new PeopleAddCommand(bob);
+        PersonAddCommand addAliceCommand = new PersonAddCommand(alice);
+        PersonAddCommand addBobCommand = new PersonAddCommand(bob);
 
         // same object -> returns true
         assertTrue(addAliceCommand.equals(addAliceCommand));
 
         // same values -> returns true
-        PeopleAddCommand addAliceCommandCopy = new PeopleAddCommand(alice);
+        PersonAddCommand addAliceCommandCopy = new PersonAddCommand(alice);
         assertTrue(addAliceCommand.equals(addAliceCommandCopy));
 
         // different types -> returns false

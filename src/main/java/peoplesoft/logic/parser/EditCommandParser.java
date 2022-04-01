@@ -15,22 +15,22 @@ import java.util.Optional;
 import java.util.Set;
 
 import peoplesoft.commons.core.index.Index;
-import peoplesoft.logic.commands.PeopleEditCommand;
-import peoplesoft.logic.commands.PeopleEditCommand.EditPersonDescriptor;
+import peoplesoft.logic.commands.PersonEditCommand;
+import peoplesoft.logic.commands.PersonEditCommand.EditPersonDescriptor;
 import peoplesoft.logic.parser.exceptions.ParseException;
 import peoplesoft.model.tag.Tag;
 
 /**
- * Parses input arguments and creates a new PeopleEditCommand object
+ * Parses input arguments and creates a new PersonEditCommand object
  */
-public class EditCommandParser implements Parser<PeopleEditCommand> {
+public class EditCommandParser implements Parser<PersonEditCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the PeopleEditCommand
-     * and returns an PeopleEditCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the PersonEditCommand
+     * and returns an PersonEditCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
-    public PeopleEditCommand parse(String args) throws ParseException {
+    public PersonEditCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS,
@@ -42,7 +42,7 @@ public class EditCommandParser implements Parser<PeopleEditCommand> {
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
         } catch (ParseException pe) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    PeopleEditCommand.MESSAGE_USAGE), pe);
+                    PersonEditCommand.MESSAGE_USAGE), pe);
         }
 
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
@@ -64,10 +64,10 @@ public class EditCommandParser implements Parser<PeopleEditCommand> {
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
 
         if (!editPersonDescriptor.isAnyFieldEdited()) {
-            throw new ParseException(PeopleEditCommand.MESSAGE_NOT_EDITED);
+            throw new ParseException(PersonEditCommand.MESSAGE_NOT_EDITED);
         }
 
-        return new PeopleEditCommand(index, editPersonDescriptor);
+        return new PersonEditCommand(index, editPersonDescriptor);
     }
 
     /**

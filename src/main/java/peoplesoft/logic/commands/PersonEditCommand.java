@@ -34,7 +34,7 @@ import peoplesoft.model.util.ID;
 /**
  * Edits the details of an existing person in the database.
  */
-public class PeopleEditCommand extends Command {
+public class PersonEditCommand extends Command {
 
     public static final String COMMAND_WORD = "edit";
 
@@ -63,7 +63,7 @@ public class PeopleEditCommand extends Command {
      * @param index of the person in the filtered person list to edit
      * @param editPersonDescriptor details to edit the person with
      */
-    public PeopleEditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
+    public PersonEditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
         requireNonNull(index);
         requireNonNull(editPersonDescriptor);
 
@@ -119,12 +119,12 @@ public class PeopleEditCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof PeopleEditCommand)) {
+        if (!(other instanceof PersonEditCommand)) {
             return false;
         }
 
         // state check
-        PeopleEditCommand e = (PeopleEditCommand) other;
+        PersonEditCommand e = (PersonEditCommand) other;
         return index.equals(e.index)
                 && editPersonDescriptor.equals(e.editPersonDescriptor);
     }

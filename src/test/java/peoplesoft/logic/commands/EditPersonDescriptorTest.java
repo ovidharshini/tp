@@ -12,7 +12,7 @@ import static peoplesoft.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
 import org.junit.jupiter.api.Test;
 
-import peoplesoft.logic.commands.PeopleEditCommand.EditPersonDescriptor;
+import peoplesoft.logic.commands.PersonEditCommand.EditPersonDescriptor;
 import peoplesoft.testutil.EditPersonDescriptorBuilder;
 
 public class EditPersonDescriptorTest {

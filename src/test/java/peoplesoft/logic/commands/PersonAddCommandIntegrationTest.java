@@ -15,9 +15,9 @@ import peoplesoft.model.util.ID;
 import peoplesoft.testutil.PersonBuilder;
 
 /**
- * Contains integration tests (interaction with the Model) for {@code PeopleAddCommand}.
+ * Contains integration tests (interaction with the Model) for {@code PersonAddCommand}.
  */
-public class PeopleAddCommandIntegrationTest {
+public class PersonAddCommandIntegrationTest {
 
     private Model model;
 
@@ -33,14 +33,14 @@ public class PeopleAddCommandIntegrationTest {
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
         expectedModel.addPerson(validPerson);
 
-        assertCommandSuccess(new PeopleAddCommand(validPerson), model,
-                String.format(PeopleAddCommand.MESSAGE_SUCCESS, validPerson), expectedModel);
+        assertCommandSuccess(new PersonAddCommand(validPerson), model,
+                String.format(PersonAddCommand.MESSAGE_SUCCESS, validPerson), expectedModel);
     }
 
     @Test
     public void execute_duplicatePerson_throwsCommandException() {
         Person personInList = model.getAddressBook().getPersonList().get(0);
-        assertCommandFailure(new PeopleAddCommand(personInList), model, PeopleAddCommand.MESSAGE_DUPLICATE_PERSON);
+        assertCommandFailure(new PersonAddCommand(personInList), model, PersonAddCommand.MESSAGE_DUPLICATE_PERSON);
     }
 
 }

@@ -15,7 +15,7 @@ import peoplesoft.model.person.Person;
 /**
  * Adds a person to the database.
  */
-public class PeopleAddCommand extends Command {
+public class PersonAddCommand extends Command {
 
     public static final String COMMAND_WORD = "add";
 
@@ -42,9 +42,9 @@ public class PeopleAddCommand extends Command {
     private final Person toAdd;
 
     /**
-     * Creates an PeopleAddCommand to add the specified {@code Person}
+     * Creates an PersonAddCommand to add the specified {@code Person}
      */
-    public PeopleAddCommand(Person person) {
+    public PersonAddCommand(Person person) {
         requireNonNull(person);
         toAdd = person;
     }
@@ -64,7 +64,7 @@ public class PeopleAddCommand extends Command {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof PeopleAddCommand // instanceof handles nulls
-                && toAdd.equals(((PeopleAddCommand) other).toAdd));
+                || (other instanceof PersonAddCommand // instanceof handles nulls
+                && toAdd.equals(((PersonAddCommand) other).toAdd));
     }
 }

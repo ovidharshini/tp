@@ -14,7 +14,7 @@ import peoplesoft.model.person.Person;
 /**
  * Deletes a person identified using it's displayed index from the database.
  */
-public class PeopleDeleteCommand extends Command {
+public class PersonDeleteCommand extends Command {
 
     public static final String COMMAND_WORD = "delete";
 
@@ -27,7 +27,7 @@ public class PeopleDeleteCommand extends Command {
 
     private final Index targetIndex;
 
-    public PeopleDeleteCommand(Index targetIndex) {
+    public PersonDeleteCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }
 
@@ -50,7 +50,7 @@ public class PeopleDeleteCommand extends Command {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof PeopleDeleteCommand // instanceof handles nulls
-                && targetIndex.equals(((PeopleDeleteCommand) other).targetIndex)); // state check
+                || (other instanceof PersonDeleteCommand // instanceof handles nulls
+                && targetIndex.equals(((PersonDeleteCommand) other).targetIndex)); // state check
     }
 }
