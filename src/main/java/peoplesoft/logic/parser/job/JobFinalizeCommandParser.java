@@ -6,7 +6,7 @@ import static peoplesoft.logic.parser.CliSyntax.PREFIX_CONFIRMATION;
 import java.util.stream.Stream;
 
 import peoplesoft.commons.core.index.Index;
-import peoplesoft.logic.commands.job.JobFinalizeCommand;
+import peoplesoft.logic.commands.job.FinalizeCommand;
 import peoplesoft.logic.parser.ArgumentMultimap;
 import peoplesoft.logic.parser.ArgumentTokenizer;
 import peoplesoft.logic.parser.Parser;
@@ -18,26 +18,26 @@ import peoplesoft.model.employment.Employment;
 /**
  * Parses an {@code Index} of a {@code Job} to finalize.
  */
-public class JobFinalizeCommandParser implements Parser<JobFinalizeCommand> {
+public class JobFinalizeCommandParser implements Parser<FinalizeCommand> {
     /**
-     * Parses the given {@code String} of arguments in the context of the {@code JobFinalizeCommand}
-     * and returns a {@code JobFinalizeCommand} object for execution.
+     * Parses the given {@code String} of arguments in the context of the {@code FinalizeCommand}
+     * and returns a {@code FinalizeCommand} object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
-    public JobFinalizeCommand parse(String args) throws ParseException {
+    public FinalizeCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_CONFIRMATION);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_CONFIRMATION) || argMultimap.getPreamble().isBlank()
                 || !argMultimap.getValue(PREFIX_CONFIRMATION).get().isBlank()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                JobFinalizeCommand.MESSAGE_USAGE));
+                FinalizeCommand.MESSAGE_USAGE));
         }
         try {
             Index index = ParserUtil.parseIndex(argMultimap.getPreamble());
-            return new JobFinalizeCommand(index, Employment.getInstance());
+            return new FinalizeCommand(index, Employment.getInstance());
         } catch (ParseException pe) {
             throw new ParseException(
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, JobFinalizeCommand.MESSAGE_USAGE), pe);
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FinalizeCommand.MESSAGE_USAGE), pe);
         }
     }
 

@@ -8,7 +8,7 @@ import java.time.Duration;
 import java.util.stream.Stream;
 
 import peoplesoft.commons.core.JobIdFactory;
-import peoplesoft.logic.commands.job.JobAddCommand;
+import peoplesoft.logic.commands.job.AddCommand;
 import peoplesoft.logic.parser.ArgumentMultimap;
 import peoplesoft.logic.parser.ArgumentTokenizer;
 import peoplesoft.logic.parser.Parser;
@@ -21,20 +21,20 @@ import peoplesoft.model.util.ID;
 /**
  * Parses input parameters and returns a {@code Job}.
  */
-public class JobAddCommandParser implements Parser<JobAddCommand> {
+public class JobAddCommandParser implements Parser<AddCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the {@code JobAddCommand}
-     * and returns a {@code JobAddCommand} object for execution.
+     * Parses the given {@code String} of arguments in the context of the {@code AddCommand}
+     * and returns a {@code AddCommand} object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
-    public JobAddCommand parse(String args) throws ParseException {
+    public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_DURATION);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_DURATION)
                 || !argMultimap.getPreamble().isBlank()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
-                    JobAddCommand.MESSAGE_USAGE));
+                    AddCommand.MESSAGE_USAGE));
         }
         String name = ParserUtil.parseString(argMultimap.getValue(PREFIX_NAME).get());
         Duration duration = ParserUtil.parseDuration(argMultimap.getValue(PREFIX_DURATION).get());
@@ -42,7 +42,7 @@ public class JobAddCommandParser implements Parser<JobAddCommand> {
 
         Job toAdd = new Job(id, name, duration);
 
-        return new JobAddCommand(toAdd);
+        return new AddCommand(toAdd);
     }
 
     /**

@@ -6,23 +6,23 @@ import static peoplesoft.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import peoplesoft.logic.commands.AddCommand;
 import peoplesoft.logic.commands.ClearCommand;
 import peoplesoft.logic.commands.Command;
-import peoplesoft.logic.commands.DeleteCommand;
-import peoplesoft.logic.commands.EditCommand;
 import peoplesoft.logic.commands.ExitCommand;
-import peoplesoft.logic.commands.ExportCommand;
-import peoplesoft.logic.commands.FindCommand;
 import peoplesoft.logic.commands.HelpCommand;
-import peoplesoft.logic.commands.ListCommand;
-import peoplesoft.logic.commands.job.JobAddCommand;
-import peoplesoft.logic.commands.job.JobAssignCommand;
-import peoplesoft.logic.commands.job.JobDeleteCommand;
-import peoplesoft.logic.commands.job.JobFinalizeCommand;
-import peoplesoft.logic.commands.job.JobFindCommand;
-import peoplesoft.logic.commands.job.JobListCommand;
-import peoplesoft.logic.commands.job.JobMarkCommand;
+import peoplesoft.logic.commands.PeopleAddCommand;
+import peoplesoft.logic.commands.PeopleDeleteCommand;
+import peoplesoft.logic.commands.PeopleEditCommand;
+import peoplesoft.logic.commands.PeopleExportCommand;
+import peoplesoft.logic.commands.PeopleFindCommand;
+import peoplesoft.logic.commands.PeopleListCommand;
+import peoplesoft.logic.commands.job.AddCommand;
+import peoplesoft.logic.commands.job.AssignCommand;
+import peoplesoft.logic.commands.job.DeleteCommand;
+import peoplesoft.logic.commands.job.FinalizeCommand;
+import peoplesoft.logic.commands.job.FindCommand;
+import peoplesoft.logic.commands.job.ListCommand;
+import peoplesoft.logic.commands.job.MarkCommand;
 import peoplesoft.logic.parser.exceptions.ParseException;
 import peoplesoft.logic.parser.job.JobAddCommandParser;
 import peoplesoft.logic.parser.job.JobAssignCommandParser;
@@ -58,26 +58,26 @@ public class AddressBookParser {
         final String arguments = matcher.group("arguments");
         switch (commandWord) {
 
-        case AddCommand.COMMAND_WORD:
+        case PeopleAddCommand.COMMAND_WORD:
             return new AddCommandParser().parse(arguments);
 
-        case EditCommand.COMMAND_WORD:
+        case PeopleEditCommand.COMMAND_WORD:
             return new EditCommandParser().parse(arguments);
 
-        case DeleteCommand.COMMAND_WORD:
+        case PeopleDeleteCommand.COMMAND_WORD:
             return new DeleteCommandParser().parse(arguments);
 
-        case ExportCommand.COMMAND_WORD:
+        case PeopleExportCommand.COMMAND_WORD:
             return new ExportCommandParser().parse(arguments);
 
         case ClearCommand.COMMAND_WORD:
             return new ClearCommand();
 
-        case FindCommand.COMMAND_WORD:
+        case PeopleFindCommand.COMMAND_WORD:
             return new FindCommandParser().parse(arguments);
 
-        case ListCommand.COMMAND_WORD:
-            return new ListCommand();
+        case PeopleListCommand.COMMAND_WORD:
+            return new PeopleListCommand();
 
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();
@@ -87,25 +87,25 @@ public class AddressBookParser {
 
             // Job related commands
 
-        case JobAddCommand.COMMAND_WORD:
+        case AddCommand.COMMAND_WORD:
             return new JobAddCommandParser().parse(arguments);
 
-        case JobListCommand.COMMAND_WORD:
-            return new JobListCommand();
+        case ListCommand.COMMAND_WORD:
+            return new ListCommand();
 
-        case JobDeleteCommand.COMMAND_WORD:
+        case DeleteCommand.COMMAND_WORD:
             return new JobDeleteCommandParser().parse(arguments);
 
-        case JobMarkCommand.COMMAND_WORD:
+        case MarkCommand.COMMAND_WORD:
             return new JobMarkCommandParser().parse(arguments);
 
-        case JobFindCommand.COMMAND_WORD:
+        case FindCommand.COMMAND_WORD:
             return new JobFindCommandParser().parse(arguments);
 
-        case JobAssignCommand.COMMAND_WORD:
+        case AssignCommand.COMMAND_WORD:
             return new JobAssignCommandParser().parse(arguments);
 
-        case JobFinalizeCommand.COMMAND_WORD:
+        case FinalizeCommand.COMMAND_WORD:
             return new JobFinalizeCommandParser().parse(arguments);
 
         default:
