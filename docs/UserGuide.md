@@ -62,7 +62,7 @@ If you are searching for information about specific features, you might find the
     The PeopleSoft interface
 </figcaption>
 
-When PeopleSoft is started for the first time, it will be populated with sample data. You may delete this data with the `clear` command.
+When PeopleSoft is started for the first time, it will be populated with sample data. You may delete this data with the [`clear`](#clear-clear-all-peoplesoft-data) command.
 
 A `data` folder and some configuration files (with a `.json` extension) will also be created in the folder that you run `peoplesoft.jar` from; this is where PeopleSoft data will be stored.
 
@@ -71,7 +71,7 @@ A `data` folder and some configuration files (with a `.json` extension) will als
 
 ### Processing your first payment using the sample data
 
-The sample data is meant to help users get started with PeopleSoft. This is a tutorial of some of the basic features of PeopleSoft using the sample data. As such, it is not a comprehensive overview of every feature in PeopleSoft. You can refer to the [features](#features) section for more information about specific features.
+The sample data is meant to help users get started with PeopleSoft. This is a tutorial of some basic features of PeopleSoft using the provided sample data. As such, it is not a comprehensive overview of every feature in PeopleSoft. You can refer to the [features](#features) section for more information about specific features.
 
 To start off, notice that the sample data contains some employees under the list of employees. Here, you can see the details of the employees, including their name, base pay and tags.
 
@@ -79,9 +79,9 @@ Since the sample data does not include any jobs, we will need to create new ones
 
 #### Create a job
 
-When your company receives a new job, you can add it to PeopleSoft. To create a job, you can use the `add` command. You will have to specify a name and duration using the `n/` and `d/` prefixes respectively. For this tutorial, we will create a 2-hour-long aircon repair job.
+When your company receives a new job, you can add it to PeopleSoft. To create a job, you can use the `add` command. You will have to specify a name and duration using the `n/` and `d/` prefixes respectively. For this tutorial, we will create a two-hour-long aircon repair job.
 
-1. Type `add n/Repair aircon d/2` in the command window.
+1. Type `add n/Repair aircon d/2` in the command box.
 
     This command will add a new job with the name "Repair aircon" and a duration of two hours.
 
@@ -106,7 +106,7 @@ When your company receives a new job, you can add it to PeopleSoft. To create a 
 
 PeopleSoft allows you to indicate which employees are in-charge of a certain job with the `assign` command. The `assign` command requires 1 job *index*, and at least 1 employee *index* (each prefixed by `i/`). These indexes can be found under the `#` column in both lists.
 
-1. Type `assign 1 i/1` in the command window.
+1. Type `assign 1 i/1` in the command box.
 
     The first number in the command (`1`) refers to the *index* of the job. In this case, it refers to the first job in the list of jobs, which is the aircon repair job created earlier.
 
@@ -135,7 +135,7 @@ PeopleSoft allows you to indicate which employees are in-charge of a certain job
 
 #### Find employees who are qualified
 
-1. Type `personfind aircon` in the command window.
+1. Type `personfind aircon` in the command box.
 
     This command searches for "aircon" in the names or tags of employees. Search terms are not case-sensitive.
 
@@ -152,7 +152,7 @@ PeopleSoft allows you to indicate which employees are in-charge of a certain job
     </figcaption>
 <br>
 
-3. Type `assign 1 i/2` in the command window.
+3. Type `assign 1 i/2` in the command box.
 
     This assigns the second person in the list (Arjun Khatau) to the first job. Notice that the employee index (2) now refers to the second employee in the current list (Arjun Khatau), instead of in the original list (Kavya Singh).
 
@@ -164,7 +164,7 @@ PeopleSoft allows you to indicate which employees are in-charge of a certain job
 
 A key feature of PeopleSoft is tracking the state of job completion and whether its payment has been processed; this can be done with the `mark` and `pay` commands, respectively.
 
-1. Type `mark 1` in the command window.
+1. Type `mark 1` in the command box.
 
     This command marks the first job as completed.
 
@@ -178,7 +178,7 @@ Now that the "Repair aircon" job has been marked as completed, "Nicole Tan" and 
 
 This value reflects the amount of money that is pending payment to the employees. It is calculated from the employee's base rate and the job's duration.
 
-1. Type `pay 1 y/` in the command window. 
+1. Type `pay 1 y/` in the command box. 
 
     The prefix `y/` is a safeguard against accidental misuse of this command. This command finalizes payments for the given job, and is **irreversible**. After the job is finalized, it cannot be further modified, so do make sure that you intend to run this command before running it.
 
@@ -199,7 +199,7 @@ This value reflects the amount of money that is pending payment to the employees
 
 PeopleSoft also allows users to export a payslip for each employee as a comma-separated values (CSV) spreadsheet.
 
-1. Type `export 1` in the command window.
+1. Type `export 1` in the command box.
 
     This command exports the payslip for the first employee (Nicole Tan) to a CSV spreadsheet.
 
@@ -278,6 +278,7 @@ A handy reference for more experienced users who just need to know the format of
 ### Parameter constraints
 
 A handy reference for the constraints on input parameters for commands. 
+
 <table>
   <tbody>
     <tr>
@@ -303,18 +304,17 @@ A handy reference for the constraints on input parameters for commands.
     </tr>
     <tr>
     <tr>
-     <tr>
       <td>Email</td>
       <td><code>e/</code></td>
       <td>
-        <p>Should be of the format `name@domain.com` where:</p>
+        <p>Should be of the format <code>name@domain.com</code> where:</p>
         <ol>
-          <li><code>name</code> contains only alphanumeric characters and the following special characters: <code>+_.-</code></li>
-          <li><code>name</code> should start and end with alphanumeric characters</li>
-          <li><code>domain</code> contains only alphanumeric characters and the following special characters: <code>.-</code></li>
-          <li><code>domain</code> should be at least two characters long</li>
-          <li><code>domain</code> should start and end with alphanumeric characters</li>
-          <li><code>domain</code> should not contain any two consecutive special characters</li>
+          <li><code>name</code> contains only alphanumeric characters and the following special characters: <code>+_.-</code>.</li>
+          <li><code>name</code> should start and end with alphanumeric characters.</li>
+          <li><code>domain</code> contains only alphanumeric characters and the following special characters: <code>.-</code>.</li>
+          <li><code>domain</code> should be at least two characters long.</li>
+          <li><code>domain</code> should start and end with alphanumeric characters.</li>
+          <li><code>domain</code> should not contain any two consecutive special characters.</li>
         </ol>
       </td>
     </tr>
@@ -330,10 +330,10 @@ A handy reference for the constraints on input parameters for commands.
       <td>Rate</td>
       <td><code>p/</code></td>
       <td>
-        <p>Should be a number consisting of only digits `0-9` and an optional decimal point.</p>
+        <p>Should be a number consisting of only digits <code>0-9</code> and an optional decimal point.</p>
         <p>Should not be negative.</p>
         <p>Should not have more than two decimal places.</p>
-        <p>Should not be larger than `1000000` (one million).</p>
+        <p>Should not be larger than <code>1000000</code> (one million).</p>
       </td>
     </tr>
      <tr>
@@ -348,9 +348,9 @@ A handy reference for the constraints on input parameters for commands.
       <td>Duration</td>
       <td><code>d/</code></td>
       <td>
-        <p>Should be a number consisting of only digits `0-9` and an optional decimal point.</p>
+        <p>Should be a number consisting of only digits <code>0-9</code> and an optional decimal point.</p>
         <p>Should be positive.</p>
-        <p>Should not be larger than `23.99`. Consider splitting the job into multiple smaller jobs if a larger value is desired.</p>
+        <p>Should not be larger than <code>23.99</code>. Consider splitting the job into multiple smaller jobs if a larger value is desired.</p>
         <p>Should not be empty.</p>
       </td>
     </tr>
@@ -832,7 +832,7 @@ Do not edit the data directly unless you know what you are doing. If your change
 
 **Index**: The item's number that is displayed in its respective list.
 
-e.g. The second person in the list has an `INDEX` of 2.
+E.g. The second person in the list has an `INDEX` of 2.
 
 **JAR**: Java ARchive. A file format used to collate Java class files and their resources for distribution. Java applications are commonly distributed as `.jar` files.
 
