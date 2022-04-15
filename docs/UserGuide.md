@@ -22,7 +22,7 @@ PeopleSoft simulates a real life workflow:
 
 If this is your first time using PeopleSoft, we recommend that you read the user guide in order. If you come across unfamiliar terms used in this user guide, their definitions may be found in the [glossary](#glossary). 
 
-If you are searching for information about specific features, you might find the [command summary section](#command-summary) useful in providing a brief overview of all commands. Alternatively, you may choose to navigate to relevant sections of the user guide from the [table of contents](#toc) for more detailed explanations of features.
+If you are searching for information about specific features, you might find the [command summary section](#command-summary) useful in providing a brief overview of all commands. Alternatively, you may choose to navigate to the relevant sections of the user guide from the [table of contents](#toc) for more detailed explanations of features.
 
 | Syntax                                                                                                                                   | Purpose                                    |
 |------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------|
