@@ -18,17 +18,17 @@ PeopleSoft simulates a real life workflow:
   * When the employees complete the job, the HR manager `mark`s the job as completed.
   * Once it is time to pay the employees, `pay` out the job and `export` the payslips for the employees.
 
-<div markdown="block" class="alert alert-info">
+## How to use this guide
 
-**:information_source: How to use this guide:**<br>
+If this is your first time using PeopleSoft, we recommend that you read the user guide in order. If you come across unfamiliar terms used in this user guide, their definitions may be found in the [glossary](#glossary). 
 
-* Words in `monospace font` are commands to be typed into PeopleSoft.<br>
+If you are searching for information about specific features, you might find the [command summary section](#command-summary) useful in providing a brief overview of all commands. Alternatively, you may choose to navigate to relevant sections of the user guide from the [table of contents](#toc) for more detailed explanations of features.
 
-* Boxes like these (with a blue background and the :information_source: icon) contain relevant tips for using PeopleSoft.
-
-* Boxes with a yellow background and the :warning: icon contain important warnings.
-
-</div>
+| Syntax                                                                                                                                   | Purpose                                    |
+|------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------|
+| `words in monospace font`                                                                                                                | Commands to be typed into PeopleSoft       |
+| <div markdown="block" class="alert alert-info">:information_source: Boxes with a blue background and the :information_source: icon</div> | Contain relevant tips for using PeopleSoft |
+| <div markdown="block" class="alert alert-warning">:warning: Boxes with a yellow background and the :warning: icon</div>                  | Contain important warnings                 |
 
 --------------------------------------------------------------------------------------------------------------------
 <span id="toc"/>
