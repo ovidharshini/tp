@@ -24,6 +24,8 @@ If this is your first time using PeopleSoft, we recommend that you read the user
 
 If you are searching for information about specific features, you might find the [command summary section](#command-summary) useful in providing a brief overview of all commands. Alternatively, you may choose to navigate to the relevant sections of the user guide from the [table of contents](#toc) for more detailed explanations of features.
 
+<div style="page-break-after: always;"></div>
+
 | Syntax                                                                                                                                   | Purpose                                    |
 |------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------|
 | `words in monospace font`                                                                                                                | Commands to be typed into PeopleSoft       |
